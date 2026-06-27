@@ -36,8 +36,9 @@ func main() {
 
 	srv := &Servidor{db: db, t: t}
 
-	// Rutas del API.
-	http.HandleFunc("/api/productos", srv.manejarProductos)
+	// Rutas del servidor
+	http.Handle("/", http.FileServer(http.Dir("./frontend"))) // index.html
+	http.HandleFunc("/api/productos", srv.manejarProductos)   // API REST
 
 	log.Println("Servidor corriendo en http://localhost:8080")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
@@ -50,15 +51,23 @@ func (srv *Servidor) manejarProductos(res http.ResponseWriter, req *http.Request
 	res.Header().Set("Content-Type", "application/json")
 
 	switch req.Method {
-	// Obtener un producto por código (GET).
+	// Obtener un producto por código, o todos si no hay código (GET).
 	case http.MethodGet:
 		codigo := req.URL.Query().Get("codigo")
+
+		// Si no hay código, devolvemos todo el catálogo.
 		if codigo == "" {
-			http.Error(res, `{"error": "Falta el parámetro 'codigo'"}`, http.StatusBadRequest)
+			productos := srv.t.ListarTodos()
+			// Si el Treap está vacío, devolvemos un arreglo vacío en vez de null
+			if productos == nil {
+				productos = make([]any, 0)
+			}
+			json.NewEncoder(res).Encode(productos)
 			return
 		}
 
-		val, encontrado := srv.t.Buscar(codigo) // Búsqueda rápida O(log n).
+		// Búsqueda rápida de un producto específico O(log n)[cite: 2].
+		val, encontrado := srv.t.Buscar(codigo)
 		if !encontrado {
 			http.Error(res, `{"error": "Producto no encontrado"}`, http.StatusNotFound)
 			return

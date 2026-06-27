@@ -138,3 +138,18 @@ func (t *Treap) eliminar(raiz *Nodo, clave string) *Nodo {
 
 	return raiz
 }
+
+// ListarTodos recorre el Treap en in-orden devolviendo todos los valores ordenados por clave.
+func (t *Treap) ListarTodos() []any {
+	var lista []any
+	t.inOrden(t.Raiz, &lista)
+	return lista
+}
+
+func (t *Treap) inOrden(nodo *Nodo, lista *[]any) {
+	if nodo != nil {
+		t.inOrden(nodo.Izq, lista)
+		*lista = append(*lista, nodo.Valor)
+		t.inOrden(nodo.Der, lista)
+	}
+}

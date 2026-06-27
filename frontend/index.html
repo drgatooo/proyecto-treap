@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inventario Tambo</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+
+    <script type="importmap">
+      {
+        "imports": {
+          "vue": "https://cdn.jsdelivr.net/npm/vue@3.4.21/dist/vue.esm-browser.js",
+          "tslib": "https://cdn.jsdelivr.net/npm/tslib@2.8.1/+esm",
+          "lit": "https://cdn.jsdelivr.net/npm/lit@3.3.0/+esm",
+          "lit/": "https://cdn.jsdelivr.net/npm/lit@3.3.0/",
+          "lit-html": "https://cdn.jsdelivr.net/npm/lit-html@3.3.0/+esm",
+          "lit-html/directive.js": "https://cdn.jsdelivr.net/npm/lit-html@3.3.0/directive.js",
+          "lit-html/directives/if-defined.js": "https://cdn.jsdelivr.net/npm/lit-html@3.3.0/directives/if-defined.js",
+          "lit-html/directives/class-map.js": "https://cdn.jsdelivr.net/npm/lit-html@3.3.0/directives/class-map.js",
+          "@lit/reactive-element": "https://cdn.jsdelivr.net/npm/@lit/reactive-element@2.0.4/+esm",
+          "@lit/reactive-element/": "https://cdn.jsdelivr.net/npm/@lit/reactive-element@2.0.4/",
+          "@m3e/web/core": "https://cdn.jsdelivr.net/npm/@m3e/web@2.5.12/dist/core.min.js",
+          "@m3e/web/core/a11y": "https://cdn.jsdelivr.net/npm/@m3e/web@2.5.12/dist/core-a11y.min.js",
+          "@m3e/web/core/bidi": "https://cdn.jsdelivr.net/npm/@m3e/web@2.5.12/dist/core-bidi.min.js",
+          "@m3e/web/core/anchoring": "https://cdn.jsdelivr.net/npm/@m3e/web@2.5.12/dist/core-anchoring.min.js",
+          "@m3e/web/core/layout": "https://cdn.jsdelivr.net/npm/@m3e/web@2.5.12/dist/core-layout.min.js",
+          "@m3e/web/core/platform": "https://cdn.jsdelivr.net/npm/@m3e/web@2.5.12/dist/core-platform.min.js",
+          "@m3e/web/slide-group": "https://cdn.jsdelivr.net/npm/@m3e/web@2.5.12/dist/slide-group.min.js",
+          "@m3e/web/button": "https://cdn.jsdelivr.net/npm/@m3e/web@2.5.12/dist/button.min.js",
+          "@m3e/web/nav-bar": "https://cdn.jsdelivr.net/npm/@m3e/web@2.5.12/dist/nav-bar.min.js",
+          "@m3e/web/icon-button": "https://cdn.jsdelivr.net/npm/@m3e/web@2.5.12/dist/icon-button.min.js"
+        }
+      }
+    </script>
+
+    <!-- Componentes M3E importados dinámicamente -->
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@m3e/web@2.5.12/dist/app-bar.min.js"
+    ></script>
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@m3e/web@2.5.12/dist/content-pane.min.js"
+    ></script>
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@m3e/web@2.5.12/dist/button.min.js"
+    ></script>
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@m3e/web@2.5.12/dist/form-field.min.js"
+    ></script>
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@m3e/web@2.5.12/dist/heading.min.js"
+    ></script>
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@m3e/web@2.5.12/dist/theme.min.js"
+    ></script>
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@m3e/web@2.5.12/dist/loading-indicator.min.js"
+    ></script>
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@m3e/web@2.5.12/dist/snackbar.min.js"
+    ></script>
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@m3e/web@2.5.12/dist/icon.min.js"
+    ></script>
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@m3e/web@2.5.12/dist/divider.min.js"
+    ></script>
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@m3e/web@2.5.12/dist/list.min.js"
+    ></script>
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@m3e/web@2.5.12/dist/icon-button.min.js"
+    ></script>
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@m3e/web@2.5.12/dist/drawer-container.min.js"
+    ></script>
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@m3e/web@2.5.12/dist/nav-rail.min.js"
+    ></script>
+  </head>
+
+  <body>
+    <m3e-theme id="app" class="contenedor" color="#af1280" strong-focus>
+      <!-- Barra superior con Botón Toggle para Móviles -->
+      <m3e-app-bar centered size="small">
+        <img
+          slot="title"
+          src="https://static.wikia.nocookie.net/logopedia/images/d/df/Logo_de_tambo_de_sitio_web.webp/revision/latest?cb=20231007024822&path-prefix=es"
+          alt="logo tambo"
+          style="height: 48px; margin-top: 16px"
+        />
+      </m3e-app-bar>
+
+      <div class="app-body">
+        <!-- Container referenciado para controlar apertura programáticamente -->
+        <m3e-nav-rail slot="start" id="nav-rail">
+          <m3e-icon-button toggle>
+            <m3e-icon name="menu"></m3e-icon>
+            <m3e-icon slot="selected" name="menu_open"></m3e-icon>
+            <m3e-nav-rail-toggle for="nav-rail"></m3e-nav-rail-toggle>
+          </m3e-icon-button>
+          <m3e-nav-item :active="pestañaActiva === 'caja'" @click="cambiarPestaña('caja')">
+            <m3e-icon slot="icon" name="search"></m3e-icon> Caja
+          </m3e-nav-item>
+          <m3e-nav-item :active="pestañaActiva === 'almacen'" @click="cambiarPestaña('almacen')">
+            <m3e-icon slot="icon" name="edit"></m3e-icon> Almacén
+          </m3e-nav-item>
+          <m3e-nav-item :active="pestañaActiva === 'catalogo'" @click="cambiarPestaña('catalogo')">
+            <m3e-icon slot="icon" name="list"></m3e-icon> Catálogo
+          </m3e-nav-item>
+        </m3e-nav-rail>
+
+        <!-- Contenido Escroleable Principal -->
+        <m3e-content-pane>
+          <div class="layout-grid">
+            <div class="columna">
+              <!-- VISTA CAJA -->
+              <div v-if="pestañaActiva === 'caja'" class="animate-fade section-container">
+                <m3e-heading size="large" variant="headline">Terminal de Búsqueda</m3e-heading>
+                <p class="texto-detalle text-muted">
+                  Consulta ágil mediante árbol binario aleatorizado.
+                </p>
+
+                <div class="flex-group">
+                  <m3e-form-field variant="outlined" class="flex-grow">
+                    <label slot="label" for="busqueda">Escanear código de barras</label>
+                    <input
+                      id="busqueda"
+                      v-model="busquedaCodigo"
+                      @keyup.enter="buscarProducto"
+                      autofocus
+                      autocomplete="off"
+                    />
+                  </m3e-form-field>
+
+                  <m3e-button v-if="!cargando" variant="filled" @click="buscarProducto">
+                    <m3e-icon slot="icon" name="search"></m3e-icon> Consultar
+                  </m3e-button>
+                  <m3e-loading-indicator v-else variant="contained"></m3e-loading-indicator>
+                </div>
+
+                <div v-if="productoActual" style="margin-top: 32px">
+                  <m3e-divider style="margin: 16px 0"></m3e-divider>
+                  <div class="product-card-header">
+                    <m3e-heading level="2">{{ productoActual.Nombre }}</m3e-heading>
+                    <m3e-icon class="icon-accent" name="inventory_2"></m3e-icon>
+                  </div>
+                  <p class="texto-detalle">
+                    <strong>Código Interno:</strong> {{ productoActual.Codigo }}
+                  </p>
+                  <p class="texto-detalle">
+                    <strong>Precio Unitario:</strong>
+                    <span class="price-tag">S/. {{ productoActual.Precio.toFixed(2) }}</span>
+                  </p>
+                  <p class="texto-detalle">
+                    <strong>Stock Disponible:</strong> {{ productoActual.Stock }} unidades
+                  </p>
+
+                  <div class="acciones">
+                    <m3e-button variant="tonal" @click="cargarParaEditar">
+                      <m3e-icon slot="icon" name="edit"></m3e-icon> Editar Ficha
+                    </m3e-button>
+                    <m3e-button
+                      variant="outlined"
+                      class="btn-danger"
+                      @click="eliminarProducto(productoActual.Codigo)"
+                    >
+                      <m3e-icon slot="icon" name="delete"></m3e-icon> Eliminar
+                    </m3e-button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- VISTA ALMACÉN -->
+              <div v-if="pestañaActiva === 'almacen'" class="animate-fade section-container">
+                <m3e-heading size="large" variant="headline">Ingreso de Stock</m3e-heading>
+                <p class="texto-detalle text-muted">
+                  Gestión de productos y sincronización segura en DB.
+                </p>
+
+                <form @submit.prevent="guardarProducto" class="formulario">
+                  <div class="form-questions">
+                    <m3e-form-field variant="outlined">
+                      <label slot="label" for="cod">Código de Barras</label>
+                      <input
+                        id="cod"
+                        type="text"
+                        v-model="form.codigo"
+                        :disabled="editando"
+                        required
+                      />
+                    </m3e-form-field>
+
+                    <m3e-form-field variant="outlined">
+                      <label slot="label" for="nom">Descripción del Producto</label>
+                      <input id="nom" type="text" v-model="form.nombre" required />
+                    </m3e-form-field>
+
+                    <m3e-form-field variant="outlined">
+                      <label slot="label" for="pre">Precio de Venta (S/.)</label>
+                      <input
+                        id="pre"
+                        type="number"
+                        step="0.10"
+                        v-model.number="form.precio"
+                        required
+                      />
+                    </m3e-form-field>
+
+                    <m3e-form-field variant="outlined">
+                      <label slot="label" for="stk">Unidades Totales</label>
+                      <input id="stk" type="number" v-model.number="form.stock" required />
+                    </m3e-form-field>
+                  </div>
+                  <div class="form-actions">
+                    <m3e-button type="submit" variant="filled" :disabled="cargando">
+                      <m3e-icon slot="icon" name="save"></m3e-icon> Sincronizar Registro
+                    </m3e-button>
+                  </div>
+                </form>
+              </div>
+
+              <!-- VISTA CATÁLOGO -->
+              <div
+                v-if="pestañaActiva === 'catalogo'"
+                class="animate-fade section-container flush-padding"
+              >
+                <div class="catalog-header">
+                  <div>
+                    <m3e-heading size="large" variant="headline">Catálogo General</m3e-heading>
+                    <p class="texto-detalle text-muted">Recorrido In-Order iterativo</p>
+                  </div>
+                  <m3e-icon-button variant="tonal" @click="cargarTodosLosProductos">
+                    <m3e-icon name="refresh"></m3e-icon>
+                  </m3e-icon-button>
+                </div>
+
+                <div v-if="cargando" class="loading-wrapper">
+                  <m3e-loading-indicator variant="contained"></m3e-loading-indicator>
+                </div>
+
+                <m3e-list v-else-if="catalogo.length > 0" interactive class="transparent-list">
+                  <m3e-list-item
+                    v-for="prod in catalogo"
+                    :key="prod.Codigo"
+                    @click="verDetalleRapido(prod.Codigo)"
+                  >
+                    <m3e-icon slot="start" name="inventory_2" style="color: #8c8c8c"></m3e-icon>
+                    {{ prod.Nombre }}
+                    <span slot="supporting-text"
+                      >Cód: {{ prod.Codigo }} &bull; Stock: {{ prod.Stock }} u.</span
+                    >
+                    <span slot="trailing-supporting-text" class="price-list"
+                      >S/. {{ prod.Precio.toFixed(2) }}</span
+                    >
+                  </m3e-list-item>
+                </m3e-list>
+
+                <div v-else class="empty-state">
+                  <m3e-icon name="inventory" class="empty-icon"></m3e-icon>
+                  <p class="texto-detalle">No hay artículos registrados en la base de datos.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </m3e-content-pane>
+      </div>
+
+      <m3e-snackbar :open="notificacion.visible" @close="notificacion.visible = false">
+        <m3e-icon slot="icon" name="info"></m3e-icon>
+        {{ notificacion.mensaje }}
+      </m3e-snackbar>
+    </m3e-theme>
+
+    <script type="module">
+      import { createApp, ref } from 'vue';
+
+      const app = createApp({
+        setup() {
+          const pestañaActiva = ref('caja');
+          const busquedaCodigo = ref('');
+          const productoActual = ref(null);
+          const cargando = ref(false);
+          const editando = ref(false);
+          const catalogo = ref([]);
+
+          const notificacion = ref({ visible: false, mensaje: '' });
+          const form = ref({ codigo: '', nombre: '', precio: 0.0, stock: 0 });
+
+          const cambiarPestaña = tab => {
+            pestañaActiva.value = tab;
+            if (tab === 'catalogo') {
+              cargarTodosLosProductos();
+            }
+          };
+
+          const buscarProducto = async () => {
+            if (!busquedaCodigo.value) return;
+            cargando.value = true;
+            try {
+              const res = await fetch(`/api/productos?codigo=${busquedaCodigo.value}`);
+              if (res.ok) {
+                productoActual.value = await res.json();
+              } else {
+                mostrarAviso('El artículo no existe en el índice O(log n).');
+                productoActual.value = null;
+              }
+            } catch (err) {
+              console.error(err);
+            } finally {
+              cargando.value = false;
+            }
+          };
+
+          const cargarTodosLosProductos = async () => {
+            cargando.value = true;
+            try {
+              const res = await fetch(`/api/productos`);
+              if (res.ok) {
+                catalogo.value = await res.json();
+              }
+            } catch (err) {
+              console.error(err);
+            } finally {
+              cargando.value = false;
+            }
+          };
+
+          const verDetalleRapido = codigo => {
+            busquedaCodigo.value = codigo;
+            buscarProducto();
+            cambiarPestaña('caja');
+          };
+
+          const guardarProducto = async () => {
+            if (!form.value.codigo || !form.value.nombre) return;
+            cargando.value = true;
+            try {
+              const res = await fetch('/api/productos', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(form.value)
+              });
+              if (res.ok) {
+                mostrarAviso('Registro exitoso. Árbol rebalanceado.');
+                form.value = { codigo: '', nombre: '', precio: 0.0, stock: 0 };
+                editando.value = false;
+                if (productoActual.value && productoActual.value.Codigo === form.value.codigo) {
+                  buscarProducto();
+                }
+              }
+            } catch (err) {
+              console.error(err);
+            } finally {
+              cargando.value = false;
+            }
+          };
+
+          const eliminarProducto = async codigo => {
+            try {
+              const res = await fetch(`/api/productos?codigo=${codigo}`, { method: 'DELETE' });
+              if (res.ok) {
+                mostrarAviso('Artículo extraído y base de datos actualizada.');
+                productoActual.value = null;
+                busquedaCodigo.value = '';
+              }
+            } catch (err) {
+              console.error(err);
+            }
+          };
+
+          const cargarParaEditar = () => {
+            form.value = { ...productoActual.value };
+            editando.value = true;
+            cambiarPestaña('almacen');
+          };
+
+          return {
+            pestañaActiva,
+            busquedaCodigo,
+            productoActual,
+            form,
+            cargando,
+            editando,
+            notificacion,
+            catalogo,
+            buscarProducto,
+            guardarProducto,
+            eliminarProducto,
+            cargarParaEditar,
+            cambiarPestaña,
+            cargarTodosLosProductos,
+            verDetalleRapido
+          };
+        }
+      });
+
+      app.config.compilerOptions.isCustomElement = tag => tag.startsWith('m3e-');
+      app.mount('#app');
+    </script>
+  </body>
+</html>
