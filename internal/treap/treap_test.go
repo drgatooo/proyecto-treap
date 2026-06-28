@@ -59,10 +59,39 @@ func TestListarTodosInOrder(t *testing.T) {
 		t.Fatalf("Se esperaban 3 productos, se obtuvieron %d", len(productos))
 	}
 
-	// Al ser in-orden, deben salir estrictamente en secuencia A -> B -> C[cite: 2]
+	// Al ser in-orden, deben salir estrictamente en secuencia A -> B -> C
 	if productos[0].(string) != "Producto A" ||
 		productos[1].(string) != "Producto B" ||
 		productos[2].(string) != "Producto C" {
 		t.Error("El recorrido in-orden no devolvió los elementos en el orden alfabético correcto de sus claves")
 	}
+}
+
+// TestPropiedadHeap garantiza que las rotaciones mantienen el orden de prioridad i.i.d.
+func TestPropiedadHeap(t *testing.T) {
+	treap := NuevoTreap()
+
+	// Insertamos múltiples elementos para forzar rotaciones pesadas
+	treap.Insertar("E", "Prod 5")
+	treap.Insertar("D", "Prod 4")
+	treap.Insertar("C", "Prod 3")
+	treap.Insertar("B", "Prod 2")
+	treap.Insertar("A", "Prod 1")
+
+	if !validarHeap(treap.Raiz) {
+		t.Error("Se violó la propiedad de Heap: un nodo hijo tiene mayor prioridad que su padre")
+	}
+}
+
+func validarHeap(nodo *Nodo) bool {
+	if nodo == nil {
+		return true
+	}
+	if nodo.Izq != nil && nodo.Izq.Prioridad > nodo.Prioridad {
+		return false
+	}
+	if nodo.Der != nil && nodo.Der.Prioridad > nodo.Prioridad {
+		return false
+	}
+	return validarHeap(nodo.Izq) && validarHeap(nodo.Der)
 }
